@@ -24,8 +24,8 @@ const SingleImage = () => {
                 img.onload = () => {
                     const fabricImage = new fabric.Image(img)
                     const aspectRatio = fabricImage.width / fabricImage.height
-                    const maxWidth = 800
-                    const maxHeight = 600
+                    const maxWidth = window.innerWidth * 0.9
+                    const maxHeight = window.innerHeight * 0.7
 
                     let imgWidth, imgHeight
 
@@ -44,10 +44,18 @@ const SingleImage = () => {
                     fabricImage.scaleToWidth(imgWidth)
                     canvas.add(fabricImage)
                     canvas.renderAll()
+                    layers()
                 }
             } catch (error) {
                 console.error('Error loading image:', error)
             }
+        }
+
+        const layers = () => {
+            const layers = canvas.getObjects().map((obj, index) => {
+                return { type: obj.type, index, details: obj }
+            })
+            console.log(layers)
         }
 
         loadImage()
@@ -115,12 +123,12 @@ const SingleImage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-            <h1 className='text-[4rem] font-bold'>Edit Image</h1>
-            <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
-                <div className="relative">
-                    <canvas ref={canvasRef} className="border rounded-lg" />
+            <h1 className='text-2xl md:text-4xl font-bold text-center mb-4'>Edit Image</h1>
+            <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl mx-2 md:mx-4 lg:mx-6">
+                <div className="relative flex justify-center items-center">
+                    <canvas ref={canvasRef} className="border rounded-lg w-full max-w-full" />
                 </div>
-                <div className="p-4 flex gap-4 flex-wrap">
+                <div className="p-4 flex flex-wrap gap-4 justify-center mt-4">
                     <button id="add-text" className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Add Caption
                     </button>
