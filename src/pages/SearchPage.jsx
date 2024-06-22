@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { PhotoContext } from '../store/PhotoContext'
 import axios from 'axios'
 
@@ -18,7 +18,7 @@ const SearchPage = () => {
           Authorization: API_KEY,
         },
       })
-      if(!res.data.photos){
+      if (!res.data.photos) {
         setError('Photo not found')
       }
       setSuggestions(res.data.photos.map(photo => photo.alt))
@@ -31,7 +31,7 @@ const SearchPage = () => {
     e.preventDefault()
     if (query.trim()) {
       getPhotos(query)
-    }else{
+    } else {
       setError('Photo not found')
     }
   }
@@ -85,14 +85,14 @@ const SearchPage = () => {
           )}
         </form>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 w-full p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-full p-8">
         {loading ? (
           <div className="col-span-full text-center">Loading...</div>
         ) : (
           data.map((photo) => (
             <div key={photo.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-              <div className='w-[350px] h-[350px]'>
-                <img src={photo.src.medium} alt={photo.alt} className="w-[350px] h-[350px] object-cover" />
+              <div className="w-full h-64 sm:h-48 md:h-56 lg:h-64">
+                <img src={photo.src.medium} alt={photo.alt} className="w-full h-full object-cover" />
               </div>
               <div className="p-4 text-center">
                 <button
@@ -102,7 +102,7 @@ const SearchPage = () => {
                   Add Caption
                 </button>
               </div>
-              {error && <p className='text-red-600'>{error}</p>}
+              {error && <p className="text-red-600">{error}</p>}
             </div>
           ))
         )}
